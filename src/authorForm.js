@@ -27,7 +27,7 @@ export default function AuthorForm() {
     autoComplete='off'
     onSubmit={handleSubmit}
     >
-    <h2>New Student</h2>
+    <h2>Author</h2>
     <label>First Name: </label>
     <input
     name='firstname'
