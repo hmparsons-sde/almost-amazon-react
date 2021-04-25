@@ -1,16 +1,31 @@
-import React from 'react';
-import firebase from 'firebase';
-import firebaseConfig from './helpers/apiKeys';
-import './App.scss';
-import AuthorForm from '../authorForm';
+import React, { useEffect, useState } from 'react';
+import AuthorForm from '../Components/authorForm';
+import AuthorCard from '../Components/authorCard';
+import { getAuthors } from './helpers/data/authorData';
 
 function App() {
-  firebase.initializeApp(firebaseConfig);
+  const [authors, setAuthors] = useState([]);
+
+  useEffect(() => {
+    getAuthors().then((resp) => setAuthors(resp));
+  }, []);
 
   return (
-    <div className='App'>
-      <AuthorForm></AuthorForm>
-    </div>
+    <>
+      <AuthorForm formTitle='Author-form'/>
+      <hr/>
+      <div className="card-container">
+        {authors.map((authorInfo) => (
+          <AuthorCard
+            key={authorInfo.firebaseKey}
+            firstname={authorInfo.firstname}
+            lastname={authorInfo.lastname}
+            email={authorInfo.email}
+            handleClick={() => console.warn(`${authorInfo.firstname}'s email is ${authorInfo.email}`)}
+          />
+        ))}
+      </div>
+    </>
   );
 }
 
