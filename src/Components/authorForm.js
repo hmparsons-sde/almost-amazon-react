@@ -3,13 +3,21 @@ import {
   Button, Form, FormGroup, Label, Input
 } from 'reactstrap';
 import PropTypes from 'prop-types';
-import { addAuthor } from '../App/helpers/data/authorData';
+import { addAuthor, updateAuthor } from '../App/helpers/data/authorData';
 
-const AuthorForm = ({ formTitle, setAuthors }) => {
+const AuthorForm = ({
+  formTitle,
+  setAuthors,
+  firstname,
+  lastname,
+  email,
+  firebaseKey
+}) => {
   const [author, setAuthor] = useState({
-    firstname: '',
-    lastname: '',
-    email: ''
+    firstname: firstname || '',
+    lastname: lastname || '',
+    email: email || '',
+    firebaseKey: firebaseKey || null
   });
 
   const handleInputChange = (e) => {
@@ -21,8 +29,12 @@ const AuthorForm = ({ formTitle, setAuthors }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // add a Author to firebase
-    addAuthor(author).then((authorArray) => setAuthors(authorArray));
+    if (author.firebaseKey) {
+      // make call to updateauthor to update author and rerender the DOM
+      updateAuthor(author).then((authorArray) => setAuthors(authorArray));
+    } else {
+      addAuthor(author).then((authorArray) => setAuthors(authorArray));
+    }
   };
 
   return (
@@ -34,7 +46,7 @@ const AuthorForm = ({ formTitle, setAuthors }) => {
           <Input
             name='firstname'
             id='firstname'
-            value={author.firstname}
+            value={author.first_name}
             type='text'
             placeholder='Enter a First Name'
             onChange={handleInputChange}
@@ -46,7 +58,7 @@ const AuthorForm = ({ formTitle, setAuthors }) => {
           <Input
             name='lastname'
             id='lastname'
-            value={author.lastname}
+            value={author.last_name}
             type='text'
             placeholder='Enter a Last Name'
             onChange={handleInputChange}
@@ -73,7 +85,11 @@ const AuthorForm = ({ formTitle, setAuthors }) => {
 
 AuthorForm.propTypes = {
   formTitle: PropTypes.string.isRequired,
-  setAuthors: PropTypes.func
+  setAuthors: PropTypes.func,
+  firstname: PropTypes.string,
+  lastname: PropTypes.string,
+  email: PropTypes.string,
+  firebaseKey: PropTypes.string,
 };
 
 export default AuthorForm;
