@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import {
   Button, Form, FormGroup, Label, Input
 } from 'reactstrap';
+import PropTypes from 'prop-types';
 import { addAuthor } from '../App/helpers/data/authorData';
 
-export default function AuthorForm() {
+const AuthorForm = ({ formTitle, setAuthors }) => {
   const [author, setAuthor] = useState({
     firstname: '',
     lastname: '',
@@ -21,13 +22,13 @@ export default function AuthorForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
     // add a Author to firebase
-    addAuthor(author);
+    addAuthor(author).then((authorArray) => setAuthors(authorArray));
   };
 
   return (
     <div className='Author-form'>
       <Form id='addAuthorForm' autoComplete='off' onSubmit={handleSubmit}>
-        <h2>New Author</h2>
+        <h2>{formTitle}</h2>
         <FormGroup>
           <Label for="firstname">First Name:</Label>
           <Input
@@ -68,4 +69,11 @@ export default function AuthorForm() {
       </Form>
     </div>
   );
-}
+};
+
+AuthorForm.propTypes = {
+  formTitle: PropTypes.string.isRequired,
+  setAuthors: PropTypes.func
+};
+
+export default AuthorForm;

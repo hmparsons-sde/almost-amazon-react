@@ -12,16 +12,19 @@ function App() {
 
   return (
     <>
-      <AuthorForm formTitle='Author-form'/>
+      <AuthorForm
+      formTitle='Author-form'
+      setAuthors={setAuthors}
+      />
       <hr/>
       <div className="card-container">
         {authors.map((authorInfo) => (
           <AuthorCard
             key={authorInfo.firebaseKey}
-            firstname={authorInfo.firstname}
-            lastname={authorInfo.lastname}
+            firstname={authorInfo.first_name}
+            lastname={authorInfo.last_name}
             email={authorInfo.email}
-            handleClick={() => console.warn(`${authorInfo.firstname}'s email is ${authorInfo.email}`)}
+            setAuthors={setAuthors}
           />
         ))}
       </div>

@@ -15,6 +15,12 @@ const getAuthors = () => new Promise((resolve, reject) => {
     }).catch((error) => reject(error));
 });
 
+const deleteAuthor = (firebaseKey) => new Promise((resolve, reject) => {
+  axios.delete(`${dbUrl}/authors/${firebaseKey}.json`)
+    .then(() => getAuthors().then((authorArray) => resolve(authorArray)))
+    .catch((error) => reject(error));
+});
+
 const addAuthor = (author) => new Promise((resolve, reject) => {
   axios.post(`${dbUrl}/authors.json`, author)
     .then((response) => {
@@ -26,4 +32,4 @@ const addAuthor = (author) => new Promise((resolve, reject) => {
     }).catch((error) => reject(error));
 });
 
-export { getAuthors, addAuthor };
+export { getAuthors, addAuthor, deleteAuthor };
