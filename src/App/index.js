@@ -13,7 +13,7 @@ function App() {
   return (
     <>
       <AuthorForm
-      formTitle='Author-form'
+      formTitle='Author Form'
       setAuthors={setAuthors}
       />
       <hr/>
@@ -21,8 +21,8 @@ function App() {
         {authors.map((authorInfo) => (
           <AuthorCard
             key={authorInfo.firebaseKey}
-            firstname={authorInfo.first_name}
-            lastname={authorInfo.last_name}
+            firstname={authorInfo.firstname}
+            lastname={authorInfo.lastname}
             email={authorInfo.email}
             setAuthors={setAuthors}
           />
