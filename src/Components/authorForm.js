@@ -1,94 +1,92 @@
+/* eslint-disable camelcase */
 import React, { useState } from 'react';
-import {
-  Button, Form, FormGroup, Label, Input
-} from 'reactstrap';
 import PropTypes from 'prop-types';
 import { addAuthor, updateAuthor } from '../App/helpers/data/authorData';
 
 const AuthorForm = ({
   formTitle,
   setAuthors,
-  firstname,
-  lastname,
   email,
+  favorite,
+  first_name,
+  last_name,
   firebaseKey
 }) => {
   const [author, setAuthor] = useState({
-    firstname: firstname || '',
-    lastname: lastname || '',
     email: email || '',
-    firebaseKey: firebaseKey || null
+    favorite: favorite || false,
+    first_name: first_name || '',
+    last_name: last_name || '',
+    firebaseKey: firebaseKey || null,
+    uid: '',
   });
-
-  const handleInputChange = (e) => {
-    setAuthor((prevState) => ({
-      ...prevState,
-      [e.target.name]: e.target.value,
-    }));
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     if (author.firebaseKey) {
-      // make call to updateauthor to update author and rerender the DOM
-      updateAuthor(author).then((authorArray) => setAuthors(authorArray));
+      updateAuthor(author.firebaseKey, author).then((response) => setAuthors(response));
     } else {
-      addAuthor(author).then((authorArray) => setAuthors(authorArray));
+      addAuthor(author).then((response) => setAuthors(response));
     }
   };
-
+  const handleInputChange = (e) => {
+    setAuthor((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.name === 'favorite' ? e.target.checked : e.target.value
+    }));
+  };
   return (
-    <div className='Author-form'>
-      <Form id='addAuthorForm' autoComplete='off' onSubmit={handleSubmit}>
-        <h2>{formTitle}</h2>
-        <FormGroup>
-          <Label for="firstname">First Name:</Label>
-          <Input
-            name='firstname'
-            id='firstname'
-            value={author.first_name}
-            type='text'
-            placeholder='Enter a First Name'
-            onChange={handleInputChange}
-          />
-        </FormGroup>
-
-        <FormGroup>
-          <Label for="lastname">Last Name:</Label>
-          <Input
-            name='lastname'
-            id='lastname'
-            value={author.last_name}
-            type='text'
-            placeholder='Enter a Last Name'
-            onChange={handleInputChange}
-          />
-        </FormGroup>
-
-        <FormGroup>
-          <Label for="Email">Email:</Label>
-          <Input
-            name='email'
-            id='email'
+    <div className='form-container'>
+      <form
+          id="addAuthorForm"
+          autoComplete="off"
+          onSubmit={handleSubmit}
+          className='add-author-form'
+          >
+          <h2>{formTitle}</h2>
+          <label>Email: </label>
+          <input
+            name="email"
+            type="email"
+            placeholder="Email"
             value={author.email}
-            type='text'
-            placeholder='Author Email'
             onChange={handleInputChange}
-          />
-        </FormGroup>
-
-        <Button type='submit'>Submit</Button>
-      </Form>
+          ></input>
+          <label>First Name: </label>
+          <input
+            name="first_name"
+            type="text"
+            placeholder="First Name"
+            value={author.first_name}
+            onChange={handleInputChange}
+          ></input>
+          <label>Last Name: </label>
+          <input
+            name="last_name"
+            type="text"
+            placeholder="Last Name"
+            value={author.last_name}
+            onChange={handleInputChange}
+          ></input>
+          <label>
+          <input
+            name="favorite"
+            type="checkbox"
+            checked={author.favorite}
+            onChange={handleInputChange}
+          ></input> Favorite</label>
+          <button type="submit">Submit</button>
+        </form>
     </div>
   );
 };
 
 AuthorForm.propTypes = {
   formTitle: PropTypes.string.isRequired,
-  setAuthors: PropTypes.func,
-  firstname: PropTypes.string,
-  lastname: PropTypes.string,
+  setAuthors: PropTypes.func.isRequired,
   email: PropTypes.string,
+  favorite: PropTypes.bool,
+  first_name: PropTypes.string,
+  last_name: PropTypes.string,
   firebaseKey: PropTypes.string,
 };
 
