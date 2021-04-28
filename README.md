@@ -1,5 +1,7 @@
-# React Template
+## Almost Amazon - React
 
-Use this template to get up and running quickly on projects. 
-- For setting up this template, [follow these instructions](https://github.com/nss-nightclass-projects/Night-Class-Resources/blob/master/book-4-react/chapters/react-setup.md).
-- [Steps to deploy](https://github.com/nss-nightclass-projects/REACT-Deployment-Netlify)
+This is a basic Amazon clone, refactored from an earlier in-class project written in VanillaJS. In this version, I have used ReactJS, React DOM router, and Reactstrap.
+
+### Original Repository:
+
+https://github.com/hmparsons-sde/almost-bezos
