@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import AddAuthor from '../../views/AddAuthors';
 import Home from '../../views/Home';
 import Authors from '../../views/Authors';
+import SingleAuthor from '../../views/SingleAuthor';
 
 export default function Routes({ authors, setAuthors }) {
   return (
@@ -14,6 +15,7 @@ export default function Routes({ authors, setAuthors }) {
           path='/authors'
           component={() => <Authors authors={authors} setAuthors={setAuthors} />}
         />
+        <Route path="/author/:id" component={SingleAuthor} />
         <Route
           path='/add-authors'
           component={() => <AddAuthor setAuthors={setAuthors} />}

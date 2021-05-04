@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import {
   Button,
   Card,
@@ -10,7 +11,7 @@ import PropTypes from 'prop-types';
 import AuthorForm from './authorForm';
 import { deleteAuthor } from '../App/helpers/data/authorData';
 
-function AuthorCard({
+const AuthorCard = ({
   email,
   favorite,
   first_name,
@@ -18,8 +19,10 @@ function AuthorCard({
   last_name,
   setAuthors,
   firebaseKey
-}) {
+}) => {
   const [editing, setEditing] = useState(false);
+  const history = useHistory();
+
   const handleClick = (type) => {
     switch (type) {
       case 'delete':
@@ -31,12 +34,19 @@ function AuthorCard({
       default:
     }
   };
+
+  function viewAuthor() {
+    history.push(`/author/${firebaseKey}`);
+  }
   return (
         <div className="card-container">
           <Card>
             <CardTitle tag='h5'>{first_name} {last_name}</CardTitle>
             <CardText>Email: {email}</CardText>
             <CardText>{favorite ? 'Favorite' : ''}</CardText>
+            <Button color="warning" onClick={viewAuthor}>
+              View Author
+            </Button>
             <Button color='danger' onClick={() => handleClick('delete')}>DELETE</Button>
             <Button color="info" onClick={() => handleClick('edit')}>
               {editing ? 'Close Form' : 'Edit Author'}
@@ -53,7 +63,7 @@ function AuthorCard({
           </Card>
         </div>
   );
-}
+};
 
 AuthorCard.propTypes = {
   email: PropTypes.string.isRequired,
