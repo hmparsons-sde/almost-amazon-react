@@ -38,6 +38,12 @@ const updateAuthor = (firebaseKey, author) => new Promise((resolve, reject) => {
     .catch((error) => reject(error));
 });
 
+const getSingleAuthor = (authorId) => new Promise((resolve, reject) => {
+  axios.get(`${dbUrl}/authors/${authorId}.json`)
+    .then((response) => resolve(response.data))
+    .catch((error) => reject(error));
+});
+
 export {
-  getAuthors, addAuthor, deleteAuthor, updateAuthor
+  getAuthors, addAuthor, deleteAuthor, updateAuthor, getSingleAuthor
 };
